@@ -4,6 +4,8 @@ import LandingView from '@/views/LandingView.vue'
 import LocationView from '@/views/LocationView.vue'
 import MapView from '@/views/MapView.vue'
 import TripView from '@/views/TripView.vue'
+import StandbyView from '@/views/StandbyView.vue'
+import DriverView from '@/views/DriverView.vue'
 import axios from 'axios'
 
 const router = createRouter({
@@ -33,16 +35,26 @@ const router = createRouter({
       path: '/trip',
       name: 'trip',
       component: TripView
+    },
+    {
+      path: '/standby',
+      name: 'standby',
+      component: StandbyView
+    },
+    {
+      path: '/driver',
+      name: 'driver',
+      component: DriverView
     }
   ]
 })
 
 router.beforeEach((to, from) => {
-  if(to.name == 'login') {
+  if (to.name == 'login') {
     return true
   }
 
-  if(!localStorage.getItem('token')) {
+  if (!localStorage.getItem('token')) {
     return {
       name: 'login'
     }
@@ -58,7 +70,7 @@ const checkTokenAuthenticity = () => {
     }
   })
 
-    .then((response) => {})
+    .then((response) => { })
     .catch((error) => {
       localStorage.removeItem('token')
       router.push({
