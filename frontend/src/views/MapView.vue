@@ -27,17 +27,17 @@
 </template>
 
 <script setup>
-import { useLocationStore } from "@/stores/location";
-import { onMounted } from "vue";
-import { useRouter } from "vue-router";
-import { ref } from "vue";
+import { useLocationStore } from "@/stores/location"
+import { useTripStore } from "@/stores/trip"
+import http from "@/helpers/http"
+import { onMounted, ref } from "vue"
+import { useRouter } from "vue-router"
 
-import http from "@/helpers/http";
+const location = useLocationStore()
+const trip = useTripStore()
+const router = useRouter()
 
-const location = useLocationStore();
-const router = useRouter();
-
-const gMap = ref(null);
+const gMap = ref(null)
 
 const handleConfirmTrip = () => {
     http()
@@ -48,22 +48,23 @@ const handleConfirmTrip = () => {
         })
 
         .then((response) => {
+            trip.$patch(response.data)
             router.push({
-                name: "trip",
-            });
+                name: "trip"
+            })
         })
 
         .catch((error) => {
-            console.error(error);
-        });
-};
+            console.error(error)
+        })
+}
 
 onMounted(async () => {
     // does the user have a location set?
     if (location.destination.name == "") {
         router.push({
-            name: "location",
-        });
+            name: "location"
+        })
     }
 
     // lets get the users current location
@@ -93,7 +94,8 @@ onMounted(async () => {
                     console.error(status);
                 }
             }
-        );
-    });
-});
+        )
+    })
+})
+
 </script>
