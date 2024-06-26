@@ -70,6 +70,7 @@ echo.connector.pusher.connection.bind('error', (err) => {
 echo.channel(`passenger_${trip.user_id}`)
     .listen('TripAccepted', (e) => {
         trip.$patch(e.trip)
+        
         title.value = "A driver is on the way!"
         message.value = `${trip.driver.user.name} is coming in a ${trip.driver.year} ${trip.driver.color} ${trip.driver.mode} with a license plate #${trip.driver.license_plate}`
     })
