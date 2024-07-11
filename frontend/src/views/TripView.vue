@@ -67,10 +67,14 @@ echo.connector.pusher.connection.bind('error', (err) => {
     console.error('Pusher error:', err);
 });
 
+
+
 echo.channel(`passenger_${trip.user_id}`)
     .listen('TripAccepted', (e) => {
-        
+                
         trip.$patch(e.trip)
+        
+        console.log("Here is the trip: " + e.trip);
 
         title.value = "A driver is on the way!"
         
