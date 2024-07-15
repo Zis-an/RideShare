@@ -16,6 +16,11 @@ export const useTripStore = defineStore('trip', () => {
         lng: null
     })
 
+    const driver_location = reactive({
+        lat: null,
+        lng: null
+    })
+
     const destination_name = ref('')
 
     const driver = reactive({
@@ -38,6 +43,9 @@ export const useTripStore = defineStore('trip', () => {
 
         destination.lat = null
         destination.lng = null
+
+        driver_location.lat = null
+        driver_location.lng = null
 
         destination_name.value = ''
 

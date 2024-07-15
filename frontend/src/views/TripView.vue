@@ -7,6 +7,7 @@
                     <div>
                         <GMapMap :zoom="14" :center="location.current.geometry" ref="gMap" style="width: 100%; height: 256px;">
                             <GMapMarker :position="location.current.geometry" :icon="destinationIcon"/>
+                            <GMapMarker v-if="trip.driver_location" :position="trip.driver_location" :icon="driverIcon"/>
                         </GMapMap>
                     </div>
                 </div>
@@ -34,6 +35,14 @@ const message = ref('When a driver accepts the trip, their info will appear here
 
 const destinationIcon = {
     url: 'https://openmoji.org/data/color/svg/E242.svg',
+    scaledSize: {
+        width: 48,
+        height: 48
+    }
+}
+
+const driverIcon = {
+    url: 'https://openmoji.org/data/color/svg/1F698.svg',
     scaledSize: {
         width: 48,
         height: 48
@@ -79,6 +88,9 @@ echo.channel(`passenger_${trip.user_id}`)
         title.value = "A driver is on the way!"
         
         message.value = `${e.trip.driver.user.name} is coming in a ${e.trip.driver.year} ${e.trip.driver.color} ${e.trip.driver.model} with a license plate #${e.trip.driver.license_plate}`
+    })
+    .listen('TripLocationUpdated', (e) => {
+        trip.$patch(e.trip)
     })
 
 })
